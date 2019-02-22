@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Погода</title>
+    <!--<link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Kurale}">-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pogoda02.css}">
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/pogoda.js}"></script>
+</head>
+<body>
+
+<div class="main">
+
+    <div class="input_class">
+        <form id="pogoda_form" action="pogoda" method="get">
+            <table class="form_table">
+                <tr>
+                    <td class="col1"><label for="input_city">Введите место:</label></td>
+                    <td class="col2"><input type="text" id="input_city" name="input_city"></td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label for="meal">Количество дней:</label>
+                    </td>
+                    <td class="col2">
+                        <div class="div_meal">
+                            <select name="input_days" id="meal">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label for="period_id">Период:</label>
+                    </td>
+                    <td class="col2">
+                        <div id="period_id">
+
+                            <input type="radio" id="twenty_four" name="period" checked="checked" value="24">
+                            <label for="twenty_four">24</label>
+
+                            <input type="radio" id="twelve" name="period" value="12">
+                            <label for="twelve">12</label>
+
+                            <input type="radio" id="six" name="period" value="6">
+                            <label for="six">6</label>
+
+                            <input type="radio" id="three" name="period" value="3">
+                            <label for="three">3</label>
+
+                            <input type="radio" id="one" name="period" value="1">
+                            <label for="one">1</label>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1"></td>
+                    <td class="col2">
+                        <a class="button" onclick="document.getElementById('pogoda_form').submit();">ЗАПРОС</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="cont"  th:if="${ mod.data.request!=null}">
+        <table class="today_table">
+            <thead>
+            <tr>
+                <th colspan="10">
+                    <h1>Погода сейчас в
+
+                        <span th:utext="${mod.data.request[0].query}"></span>
+                    </h1>
+                </th>
+            </tr>
+            <tr>
+                <th><!--иконка--></th>
+                <th><!--описание--></th>
+                <th>температура</th>
+                <th>скорость ветра</th>
+                <th>направление ветра</th>
+                <th>направление ветра</th>
+                <th>влажность</th>
+                <th>видимость</th>
+                <th>давление</th>
+                <th>облачность</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="current : ${mod.data.current_condition}">
+
+                <td th:utext="${current.lang_ru[0].value}">{{value}}</td>
+                <td><img th:src="${current.weatherIconUrl[0].value}"></td>
+                <td th:utext="${current.temp_C}">{{}}</td>
+                <td th:utext="${current.windspeedKmph}">{{}}</td>
+                <td th:utext="${current.winddirDegree}">{{}}</td>
+                <td th:utext="${current.winddir16Point}">{{}}</td>
+                <td th:utext="${current.humidity}">{{}}</td>
+                <td th:utext="${current.visibility}"></td>
+                <td th:utext="${current.pressure}*0.75"></td>
+                <td th:utext="${current.cloudcover}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <table class="day_table" th:each="weather : ${mod.data.weather}">
+
+            <thead>
+
+            <tr>
+                <th colspan="5"><h1 th:utext="${weather.date}"></h1></th>
+            </tr>
+            <tr>
+                <th>Восход</th>
+                <th>Закат</th>
+                <th>Мах Т</th>
+                <th>Min T</th>
+                <th>Снежный покров(см)</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+
+                <td th:utext="${weather.astronomy[0].sunrise}">{{}}</td>
+                <td th:utext="${weather.astronomy[0].sunset}">{{}}</td>
+
+
+                <td th:utext="${weather.maxtempC}">{{}}</td>
+                <td th:utext="${weather.mintempC}">{{}}</td>
+                <td th:utext="${weather.totalSnow_cm}">{{}}</td>
+            </tr>
+            <tr class="tr_white">
+                <td colspan="5" class="td_white">
+                    <table class="hour_table">
+                        <thead>
+                        <tr>
+                            <th>время</th>
+                            <th><!--иконка--></th>
+                            <th><!--описание--></th>
+                            <th>температура</th>
+                            <th>скорость ветра</th>
+                            <th>напр ветра</th>
+                            <th>напр ветра</th>
+                            <th>влажность</th>
+                            <th>давление</th>
+                            <th>ощущается</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="hourly,iterHourly : ${weather.hourly}" th:class="${iterHourly.even}?'even'">
+
+
+                            <td th:utext="${hourly.time}==24?'сутки' : ${hourly.time}/100+'.00'">{{}}</td>
+
+
+                            <!--<td th:utext="${hourly.time}/100+'.00'">{{}}</td>-->
+
+
+                            <td><img th:src="${hourly.weatherIconUrl[0].value}"></td>
+
+                            <td th:utext="${hourly.lang_ru[0].value}">{{}}</td>
+
+                            <td th:utext="${hourly.tempC}">{{}}</td>
+                            <td th:utext="${hourly.windspeedKmph}">{{}}</td>
+                            <td th:utext="${hourly.winddirDegree}">{{}}</td>
+                            <td th:utext="${hourly.winddir16Point}">{{}}</td>
+                            <td th:utext="${hourly.humidity}">{{}}</td>
+                            <td th:utext="${hourly.pressure}*0.75">{{}}</td>
+                            <td th:utext="${hourly.feelsLikeC}">{{}}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+    <div class="no_cont" th:if="${ mod.data.request==null}">
+        <h1>Такое место не найдено</h1>
+    </div>
+
+    <div id="dsa"></div>
+
+</div>
+
+</body>
+</html>

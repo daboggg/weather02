@@ -1,0 +1,82 @@
+body{
+    color: rgb(0, 96, 0);
+    font-weight: bold;
+}
+.input {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    color: rgb(194, 17, 26);
+}
+.input table{
+    margin-left: 0;
+
+}
+.input .col1 {
+    text-align: right;
+}
+
+.input td {
+    border: none;
+}
+
+.main{
+    max-width: 960px;
+    margin: 0 auto;
+}
+table{
+    width: auto;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+td, th{
+    border: 2px solid #759d73;
+    padding: 5px;
+    font-size: 1em;
+    text-align: center;
+
+}
+
+h1{
+    text-align: center;
+    margin: 0;
+}
+
+.today_table{
+    margin-bottom: 40px;
+    background-color: #eadf8c;
+    font-weight: bold;
+
+}
+.today_table thead{
+    background-color: #d7cc84;
+}
+
+.hour_table {
+    margin-top: 5px;
+    margin-bottom: 50px;
+}
+
+.day_table tr{
+    background-color: #bfefc6;
+}
+.day_table tr th {
+    background-color: #afdab5;
+    font-size: 1.1em;
+}
+
+.day_table tr .even{
+    background-color: #afdab5;
+}
+
+table.day_table>tbody>tr:nth-child(4n+2){
+    background-color: white;
+}
+.td_white{
+    padding: 10px;
+    border: none;
+}
+.day_table tr>th{
+    width: 20%;
+}
